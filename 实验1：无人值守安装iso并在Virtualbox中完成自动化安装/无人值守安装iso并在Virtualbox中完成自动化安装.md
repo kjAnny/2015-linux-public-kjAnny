@@ -107,7 +107,7 @@ vim isolinux/txt.cfg
 
 
 ## 遇到的问题
-1. 重新生成 md5sum.txt 时，执行 *cd ~/cd && sudo find . -type f -print0 | xargs -0 md5sum > md5sum.txt* 也会权限不足Prmission denied, 执行 *cd ~/cd && sudo find . -type f -print0 | xargs -0 md5sum > ../md5sum.txt* 还是会Prmission denied，于是使用 *sudo -s* 切换为root用户
+1. 重新生成 md5sum.txt 时，执行 *cd ~/cd && sudo find . -type f -print0 | xargs -0 md5sum > md5sum.txt* 也会权限不足Permission denied, 执行 *cd ~/cd && sudo find . -type f -print0 | xargs -0 md5sum > ../md5sum.txt* 还是会Permission denied，于是使用 *sudo -s* 切换为root用户
 ![](images/9.PNG)
 
 2. 封闭改动后的目录到.iso，执行相应命令，出现如下错误，于是将 *mkisofs -r -V "Custom Ubuntu Install CD"* 缩减为 *mkisofs -r -V "Custom Ubuntu CD"* </br>
