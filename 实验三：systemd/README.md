@@ -96,7 +96,7 @@ systemctl status nginx.service
 
   - 参考[[LVM] pvcreate - ignored by filtering](https://www.linuxquestions.org/questions/linux-newbie-8/%5Blvm%5D-pvcreate-ignored-by-filtering-4175559389/)和[/dev/sdb: No such file or directory (but /dev/sdb1 etc. exists)](https://unix.stackexchange.com/questions/56516/dev-sdb-no-such-file-or-directory-but-dev-sdb1-etc-exists)都没解决报错
 
-![](images/12.PNG)
+![](images/13.PNG)
 
 ## 参考资料
 [linux下添加用户并赋予root权限](https://blog.csdn.net/stormbjm/article/details/9086163)
