@@ -31,6 +31,7 @@
 ![](images/4.PNG)
 
 ![](images/5.PNG)
+
 2. 如何将一个用户添加到一个用户组？
 ```bash
 # 创建组，把cuc用户添加到testgroup
