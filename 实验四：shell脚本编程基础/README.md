@@ -40,7 +40,7 @@ convert file.png file.jpg
 支持对图片批量添加自定义文本水印(添加水印到右下角，呈黄色)
 ![](images/14.PNG)
 
-![](images/test/haha_icons8-bookmark-512.png)
+![](images/test/haha_christmas-3023998_1280.jpg)
 
 支持批量重命名（统一添加文件名前缀或后缀，不影响原始文件扩展名）
 ![](images/12.PNG)
