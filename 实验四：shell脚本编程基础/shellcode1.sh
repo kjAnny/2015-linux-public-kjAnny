@@ -13,14 +13,15 @@ function HELP
 
 function Operate
 {
-  if [ $# != 3 ];then
+  if [ $# != 4 ];then
     HELP
     exit 1
   fi
+  echo $3$4":"
   case $1 in
-    1) if [ $(file --mime-type -b "$3") == "image/jpge" ];
+    1) if [[ "$(file --mime-type -b $3$4)" == "image/jpeg" ]];
        then
-         $(convert -quality $2 $3 "QualityCompress"$3)
+         $(convert $3$4 -quality $2 QualityCompress_$4)
          if [ $? == 0 ];then
            echo "Successful"
          else
@@ -30,9 +31,9 @@ function Operate
          echo "Format error"
        fi
        ;;
-    2) if [[ $(file --mime-type -b "$3") == "image/jpge" || $(file --mime-type -b "$3") == "image/png" || $(file --mime-type -b "$3") == "image/svg+xml"] ];
+    2) if [[ "$(file --mime-type -b "$3$4")" == "image/jpeg" || "$(file --mime-type -b "$3$4")" == "image/png" || "$(file --mime-type -b "$3$4")" == "image/svg+xml" ]];
        then
-         $(convert $3 -resize $2 "Compress"$3)
+         $(convert $3$4 -resize $2 "Compress"$4)
          if [ $? == 0 ];then
            echo "Successful"
          else
@@ -42,9 +43,9 @@ function Operate
          echo "Format error"
        fi
        ;;
-    3) if [ $(file --mime-type -b "$3") == "image/jpge" || $(file --mime-type -b "$3") == "image/png" ];
+    3) if [[ $(file --mime-type -b "$3$4") == "image/jpeg" || $(file --mime-type -b "$3$4") == "image/png" ]];
        then
-         $(mogrify -gravity SouthEast -fill black -draw 'text 0,0 '$2'' $3)
+         $(mogrify -gravity SouthEast -fill yellow -draw 'text 4,5 '$2'' $3$4)
          if [ $? == 0 ];then
            echo "Successful"
          else
@@ -54,15 +55,15 @@ function Operate
          echo "Format error"
        fi
        ;;
-    4) $(mv "$3" "$2_$3")
+    4) $(mv "$3$4" "$3$2_$4")
        if [ $? == 0 ];then
          echo "Successful"
        else echo "Format error"
        fi
        ;;
-    5) if [[ $(file --mime-type -b "$3") == "image/svg+xml" ||$(file --mime-type -b "$3") == "image/png" ]];
+    5) if [[ $(file --mime-type -b "$3$4") == "image/svg+xml" || $(file --mime-type -b "$3$4") == "image/png" ]];
        then
-         $(convert $3 "${3%.*}$2.jpg")
+         $(convert $3$4 "$3${4%.*}$2.jpg")
          if [ $? == 0 ];then
            echo "Successful"
          else
@@ -77,22 +78,19 @@ function Operate
 
 function main
 {
-  input=("-q" "-c" "-w" "-n" "-r")
-  directory=""
-
   if [ $# == 4 ];then
-    if [ $1 == "-i" ];then
-      directory=$2
-      num=1
-      for i in ${input[@]};
+    if [ $1 == "-i" ];
+    then
+      img=($(ls $2))
+      for j in ${img[@]};
       do
-        if [ $3 == $i ];then
-          for file in $(ls $directory);
-          do
-            Operate $num $4 $file
-          done
-        fi
-        num=$((num+1))
+        case $3 in
+          -q) Operate 1 $4 $2 $j;;
+          -c) Operate 2 $4 $2 $j;;
+          -w) Operate 3 $4 $2 $j;;
+          -n) Operate 4 $4 $2 $j;;
+          -r) Operate 5 $4 $2 $j;;
+        esac
       done
     fi
   else
