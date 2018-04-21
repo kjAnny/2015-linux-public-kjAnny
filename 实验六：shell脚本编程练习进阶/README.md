@@ -1,6 +1,7 @@
 # shell脚本编程练习进阶（实验）
+**FTP、NFS、DHCP、DNS、Samba服务器的自动安装与自动配置**
 
-## FTP、NFS、DHCP、DNS、Samba服务器的安装与配置
+## 软件环境建议
 
 ### ProFTPD
 
@@ -43,11 +44,12 @@
     # 修改/home/virtual权限
     sudo chown -R 1024:1024 /home/user1
     sudo chmod -R 700 /home/user1
-    sudo chown -R 1024:1024 /home/user2
+    sudo chown -R 1025:1024 /home/user2
     sudo chmod -R 700 /home/user2
 
     # 创建了一个user1和user2用户
     sudo ftpasswd --passwd --file=/usr/local/etc/proftpd/passwd --name=user1 --uid=1024 --home=/home/user1 --shell=/bin/false
+    sudo ftpasswd --passwd --file=/usr/local/etc/proftpd/passwd --name=user1 --uid=1025 --home=/home/user1 --shell=/bin/false
 
     # 创建了一个virtualusers组
     sudo ftpasswd --file=/usr/local/etc/proftpd/group --group --name=virtualusers --gid=1024
@@ -81,6 +83,9 @@ user1和user2文件夹的权限如下
 
 ![](images/q6.PNG)
 
+解决：命令行参数设置错误
+chown [OWNER][:[GROUP]]
+设置/home/user2的属性应为：`sudo chown -R 1025:1024 /home/user2`
 ---
 
 
@@ -89,10 +94,11 @@ user1和user2文件夹的权限如下
 
 * [ ] 在1台Linux上配置NFS服务，另1台电脑上配置NFS客户端挂载2个权限不同的共享目录，分别对应只读访问和读写访问权限；
 
-  ---
+
   host: 192.168.232.3
+
   client: 192.168.232.4
-  ---
+
 
   host `/etc/exports` 添加如下：
 
@@ -149,8 +155,10 @@ sudo apt-get install samba
 # 创建Samba共享专用的用户
 sudo useradd -M -s /sbin/nologin demoUser
 sudo passwd demoUser
+
 # 创建的用户必须有一个同名的Linux用户，密码是独立的
 sudo smbpasswd -a demoUser
+sudo smbpasswd -e demoUser
 # 创建用户组
 sudo groupadd demoGroup
 # 添加用户组
@@ -253,7 +261,7 @@ sudo apt-get install smbclient
 
 ---
 
-####Server
+#### Server
   1. 安装bind9
 
     > sudo apt install bind9
@@ -269,7 +277,7 @@ sudo apt-get install smbclient
 
       ![](images/25.PNG)
 
-####client
+#### client
 1. 添加解析服务器`sudo vi /etc/resolvconf/resolv.conf.d/head`
 > search cuc.edu.cn
 >
@@ -306,3 +314,25 @@ sudo apt-get install smbclient
     * 目标服务器SSH服务的端口
     * 目标服务器上使用的用户名
     * 目标服务器上用于临时存储安装脚本、配置文件的临时目录路径
+
+
+## [一键部署](scripts/)
+### 目标主机配置
+* 修改root密码：sudo passwd root  
+* 编辑/etc/ssh/sshd_config文件：修改PermitRootLogin yes  
+* mkdir /root/.ssh  
+* touch /root/.ssh/authorized_keys  
+* chmod 700 -R /root/.ssh  
+* 重启ssh服务：service ssh restart  
+
+### 本地主机配置
+* 使用root用户：sudo su
+* 创建公钥：ssh-keygen -t rsa
+* 安装expect：apt-get install expect
+
+## 参考资料
+[Linux Sed命令详解](https://qianngchn.github.io/wiki/4.html)
+
+[师哥师姐们的实验报告](https://github.com/CUCCS/linux/tree/master/2017-1)
+
+[shell-script-automate-ssh-key-transfer-hosts-linux](http://www.techpaste.com/2013/04/shell-script-automate-ssh-key-transfer-hosts-linux/)

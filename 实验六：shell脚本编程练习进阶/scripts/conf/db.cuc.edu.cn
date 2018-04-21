@@ -11,6 +11,6 @@ $TTL	604800
 ;
 
         IN       NS      ns.cuc.edu.cn.
-ns      IN       A       192.168.231.10
-wp.sec.cuc.edu.cn.   IN   A      192.168.231.10
+ns      IN       A       192.168.231.11
+wp.sec.cuc.edu.cn.   IN   A      192.168.231.11
 dvwa.sec.cuc.edu.cn. IN   CNAME  wp.sec.cuc.edu.cn.
