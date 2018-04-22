@@ -1,0 +1,62 @@
+---
+- name: Install Samba
+  apt:
+    name: {{ item }}
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - samba
+
+# http://docs.ansible.com/ansible/latest/modules/user_module.html
+# 创建Samba共享专用的用户
+# command: useradd -M -s /sbin/nologin {{ SAMBA_USERNAME }}
+- name: add samba user
+  user:
+    name: "{{ SAMBA_USERNAME }}"
+    shell: /sbin/nogin
+    create_home: no
+
+# 创建的用户必须有一个同名的Linux用户，密码是独立的
+# sudo smbpasswd -a demoUser
+# sudo smbpasswd -e demoUser
+- name: smbpasswd
+  shell: "(echo {{ SAMBA_PASSWORD }}; echo {{ SAMBA_PASSWORD }}) | smbpasswd -a -s {{ SAMBA_USERNAME }}"
+
+- name: smbpasswd enable
+  command: smbpasswd -e {{ SAMBA_USERNAME }}
+
+# 创建用户组
+- name: create group
+  command: groupadd {{ SAMBA_GROUP }}
+
+# 添加用户组
+- name: usermod
+  command: usermod -G {{ SAMBA_GROUP }} {{ SAMBA_USERNAME }}
+
+- name: mkdir /srv/samba/guest
+  file:
+    path: /srv/{{ item }}
+    mode: 2775
+    group: "{{ SAMBA_GROUP }}"
+    state: directory
+  with_items: [samba,samba/guest]
+
+- name: mkdir /srv/samba/demo
+  file:
+    path: /srv/samba/demo
+    mode: 2770
+    group: "{{ SAMBA_GROUP }}"
+    state: directory
+
+- name: Create Samba configuration file
+  template: src=smb.conf dest=/etc/samba/smb.conf backup=yes
+  notify:
+    - stop smbd
+    - start smbd
+
+- name: Stop Samba Service
+  service: name=smbd state=stopped enabled=no
+
+- name: Start Samba Service
+  service: name=smbd state=started enabled=yes

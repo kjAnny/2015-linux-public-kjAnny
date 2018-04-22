@@ -1,0 +1,14 @@
+---
+- name: Install FTP, NFS, DHCP, DNS, Samba
+  hosts: manage-users
+  remote_user: root
+  # remote_user: user
+  # become: yes
+  # become_method: sudo
+
+  roles:
+    - proftpd
+    - NFS
+    - Samba
+    - DNS
+    - DHCP
