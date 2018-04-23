@@ -4,6 +4,18 @@
 
 ## [一键部署](ansible/)
 
+![](images/2.PNG)
+
+![](images/3.PNG)
+
+![](images/4.PNG)
+
+![](images/5.PNG)
+
+![](images/6.PNG)
+
+![](images/7.PNG)
+
 ## 参考链接
 [ansible课件](http://sec.cuc.edu.cn/huangwei/course/LinuxSysAdmin/ansible.md.html#/)
 

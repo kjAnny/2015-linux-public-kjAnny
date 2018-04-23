@@ -1,7 +1,7 @@
 ---
 - name: Install isc-dhcp-server
   apt:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
     update_cache: yes
     cache_valid_time: 3600
@@ -9,10 +9,10 @@
     - isc-dhcp-server
 
 - name: up the interface
-  shell: ifconfig {{ INTERNAL_INTER }} up
+  shell: ifconfig "{{ INTERNAL_INTER }}" up
 
 - name: set the ip of interface
-  shell: ifconfig {{ INTERNAL_INTER }} {{ INTERNAL_IP }} netmask 255.255.255.0
+  shell: ifconfig "{{ INTERNAL_INTER }}" "{{ INTERNAL_IP }}" netmask 255.255.255.0
 
 - name: Create isc-dhcp-server configuration file
   template: src=isc-dhcp-server dest=/etc/default/isc-dhcp-server backup=yes

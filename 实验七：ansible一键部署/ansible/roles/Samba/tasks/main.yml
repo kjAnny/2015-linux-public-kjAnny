@@ -1,7 +1,7 @@
 ---
 - name: Install Samba
   apt:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
     update_cache: yes
     cache_valid_time: 3600
@@ -21,22 +21,22 @@
 # sudo smbpasswd -a demoUser
 # sudo smbpasswd -e demoUser
 - name: smbpasswd
-  shell: "(echo {{ SAMBA_PASSWORD }}; echo {{ SAMBA_PASSWORD }}) | smbpasswd -a -s {{ SAMBA_USERNAME }}"
+  shell: (echo "{{ SAMBA_PASSWORD }}"; echo "{{ SAMBA_PASSWORD }}") | smbpasswd -a -s "{{ SAMBA_USERNAME }}"
 
 - name: smbpasswd enable
-  command: smbpasswd -e {{ SAMBA_USERNAME }}
+  command: smbpasswd -e "{{ SAMBA_USERNAME }}"
 
 # 创建用户组
 - name: create group
-  command: groupadd {{ SAMBA_GROUP }}
+  command: groupadd -f "{{ SAMBA_GROUP }}"
 
 # 添加用户组
 - name: usermod
-  command: usermod -G {{ SAMBA_GROUP }} {{ SAMBA_USERNAME }}
+  command: usermod -G "{{ SAMBA_GROUP }}" "{{ SAMBA_USERNAME }}"
 
 - name: mkdir /srv/samba/guest
   file:
-    path: /srv/{{ item }}
+    path: /srv/"{{ item }}"
     mode: 2775
     group: "{{ SAMBA_GROUP }}"
     state: directory

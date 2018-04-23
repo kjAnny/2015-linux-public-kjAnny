@@ -10,5 +10,5 @@
     - proftpd
     - NFS
     - Samba
-    - DNS
     - DHCP
+    - DNS

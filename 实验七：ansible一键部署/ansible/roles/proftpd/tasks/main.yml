@@ -1,35 +1,33 @@
 ---
 - name: Install ProFTPD
   apt:
-    name: {{ item }}
+    name: proftpd
     state: present
     update_cache: yes
     cache_valid_time: 3600
-  with_items:
-    - proftpd
 
 # http://docs.ansible.com/ansible/latest/modules/file_module.html
 - name: mkdir virtualusers
   file:
-    path: {{ PRO_VIR_DIR }}
-    owner: {{ PRO_UID }}
-    group: {{ PRO_GID }}
+    path: "{{ PRO_VIR_DIR }}"
+    owner: "{{ PRO_UID }}"
+    group: "{{ PRO_GID }}"
     mode: 0700
     state: directory
 
 - name: mkdir /usr/local/etc/proftpd
   file:
-    path: {{ PRO_FTPASSWD_DIR }}
+    path: /usr/local/etc/proftpd
     state: directory
 
 - name: ftpasswd user
-  shell: echo {{ PRO_VIRTUAL_PASS }}|ftpasswd --passwd --file=/usr/local/etc/proftpd/passwd --name={{ PRO_VIRTUAL_USER }} --uid={{ PRO_UID }} --home={{ PRO_VIR_DIR }} --shell=/bin/false --stdin
+  shell: echo "{{ PRO_VIRTUAL_PASS }}"|ftpasswd --passwd --file=/usr/local/etc/proftpd/passwd --name="{{ PRO_VIRTUAL_USER }}" --uid="{{ PRO_UID }}" --home="{{ PRO_VIR_DIR }}" --shell=/bin/false --stdin
 
 - name: ftpgroup
-  shell: ftpasswd --file=/usr/local/etc/proftpd/group --group --name={{ PRO_GROUP_NAME }} --gid={{ PRO_GID }}
+  shell: ftpasswd --file=/usr/local/etc/proftpd/group --group --name="{{ PRO_GROUP_NAME }}" --gid="{{ PRO_GID }}"
 
 - name: Add ftpuser to ftpgroup
-  shell: ftpasswd --group --name={{ PRO_GROUP_NAME }} --gid={{ PRO_GID }} --member={{ PRO_VIRTUAL_USER }} --file=/usr/local/etc/proftpd/group
+  shell: ftpasswd --group --name="{{ PRO_GROUP_NAME }}" --gid="{{ PRO_GID }}" --member="{{ PRO_VIRTUAL_USER }}" --file=/usr/local/etc/proftpd/group
 
 - name: Create ProFTPD configuration file
   template: src=proftpd.conf dest=/etc/proftpd/proftpd.conf backup=yes
