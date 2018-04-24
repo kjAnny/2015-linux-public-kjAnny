@@ -4,19 +4,19 @@
 PRO_WHITE_IP: 192.168.232.4
 # virtual user
 PRO_VIRTUAL_USER: user1
-PRO_VIRTUAL_PASS: password
 PRO_DIR: /srv/ftp
 PRO_UID: 1024
 PRO_GID: 1024
 PRO_VIR_DIR: /home/user1
 PRO_LIMIT: 700
 PRO_GROUP_NAME: VisualUsers
+PRO_VIRTUAL_PASS: "{{ vault_pro_pass }}"
 
 # samba
 # samba user
 SAMBA_USERNAME: demoUser
 SAMBA_GROUP: demoGroup
-SAMBA_PASSWORD: password
+SAMBA_PASSWORD: "{{ vault_samba_pass }}"
 
 # interfaces
 INTERNAL_NETMASK: 255.255.255.0

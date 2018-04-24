@@ -3,6 +3,15 @@
 ## [安装](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#control-machine-requirements)
 
 ## [一键部署](ansible/)
+```bash
+ansible-vault create vault.yml
+
+ansible-vault edit vault.yml
+
+ansible-playbook -i hosts site.yml --ask-vault-pass
+
+```
+Vault password: **password**
 
 ![](images/2.PNG)
 
@@ -26,3 +35,5 @@
 [ansible user module](http://docs.ansible.com/ansible/latest/modules/user_module.html)
 
 [ansible service module](http://docs.ansible.com/ansible/latest/modules/service_module.html)
+
+[ansible vault](https://docs.ansible.com/ansible/2.4/vault.html)
