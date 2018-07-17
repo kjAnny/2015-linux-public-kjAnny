@@ -1,0 +1,51 @@
+#!/bin/bash
+
+ip="192.168.232.4"
+username="root"
+password="toor"
+localuser="hello"
+
+# FTP:proftpd
+# white list
+PRO_WHITE_IP="192.168.232.5"
+# virtual user
+PRO_VIRTUAL_USER="user1"
+PRO_VIRTUAL_PASS="password"
+PRO_DIR="/srv/ftp"
+PRO_UID="1024"
+PRO_GID="1024"
+PRO_VIR_DIR="/home/${PRO_VIRTUAL_USER}"
+PRO_LIMIT="700"
+PRO_FTPASSWD_DIR="/usr/local/etc/proftpd"
+PRO_PASSWD_DIR="${PRO_FTPASSWD_DIR}/passwd"
+PRO_GROUP_DIR="${PRO_FTPASSWD_DIR}/group"
+PRO_GROUP_NAME="VisualUsers"
+
+# samba
+# samba user
+SAMBA_USERNAME="demoUser"
+SAMBA_GROUP="demoGroup"
+SAMBA_PASSWORD="password"
+SAMBA_GUEST_DIR="/srv/samba/guest"
+SAMBA_DEMO_DIR="/srv/samba/demo"
+SAMBA_GUEST_LIMIT="2775"
+SAMBA_DEMO_LIMIT="2770"
+
+# interfaces
+INTERNAL_NETMASK="255.255.255.0"
+INTERNAL_IP="192.168.231.11"
+INTERNAL_INTER="enp0s9"
+NAT_INTER="enp0s8"
+HOST_ONLY_INTER="enp0s3"
+
+# NFS
+# client ip
+NFS_CLIENT_IP="192.168.232.4"
+
+# DHCP
+# subnet address
+SUBNET_SUB="192.168.231.0"
+INTERNAL_NETMASK="255.255.255.0"
+SUBNET_BOTTOM="192.168.231.2"
+SUBNET_TOP="192.168.231.30"
+SUBNET_BROADCAST="192.168.231.255"
